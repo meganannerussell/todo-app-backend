@@ -7,6 +7,12 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
+const port = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 //ROUTES
 
 //create a todo
@@ -18,7 +24,6 @@ app.post("/todos", async (req, res) => {
       "INSERT INTO todo (description) VALUES($1) RETURNING * ",
       [description]
     );
-
     res.json(newTodo.rows[0]);
   } catch (e) {
     console.log(e);
@@ -91,6 +96,6 @@ app.delete("/todos/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("server has started on port 5000");
+app.listen(port, () => {
+  console.log(`server has started on ${port}`);
 });
